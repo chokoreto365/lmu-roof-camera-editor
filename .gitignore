@@ -1,0 +1,18 @@
+# 编译中间产物
+*.pdb
+*.tmp
+*.log
+
+# 自测与临时文件
+_selftest*.txt
+selftest*.txt
+
+# 编辑器与系统
+.vs/
+.vscode/
+*.user
+Thumbs.db
+desktop.ini
+
+# 个人相机配置备份（不上传）
+*.CAM
