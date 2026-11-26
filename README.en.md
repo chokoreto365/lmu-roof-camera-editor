@@ -41,13 +41,17 @@ If `Broadcast Custom Cameras` was off, the first save enables it in `Settings.JS
 | Camera slot | — | `TVCOCKPIT` (roof / TV cockpit) or `ONBOARD000` (external on-board) |
 | NOSE | — | optional extra slot; some cars do not draw bodywork in it |
 
-Typical starting point:
+Default starting point (verified: the whole car body stays visible):
 
 ```
-X=0, Y=90 cm, Z=65 cm, pitch=-8°, slot=TVCOCKPIT
+X=0, Y=60 cm, Z=250 cm, pitch=0°, slot=TVCOCKPIT
 ```
 
-To move the camera further back, increase Z by 5–25 cm at a time. The −500…+500 cm range in the UI is a tool limit, not an engine limit.
+To sit further back keep increasing Z in 5–25 cm steps; to get closer to the roof reduce Z. The −500…+500 cm range in the UI is a tool limit, not an engine limit.
+
+## Where the values live
+
+Pressing **Save this car** writes directly to `UserData\Cameras\<car>.CAM` inside the game folder, so the setting exists **only on the machine that saved it**. The program ships no per-car numbers — a new PC or a reinstall means saving again. To back up your own tuning, copy the whole `UserData\Cameras` folder.
 
 ## Tuning while the game runs
 
