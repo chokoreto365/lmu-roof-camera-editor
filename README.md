@@ -4,6 +4,8 @@
 
 非官方工具，与 Motorsport Games / Studio 397 无关。
 
+**语言 / Language：** [中文](#lmu-可视化车顶相机编辑器) · [English](#english)
+
 ![车顶视角效果](docs/roof-view.jpg)
 
 ## 工具界面
@@ -121,3 +123,60 @@ README.en.md                 English readme
 ## License
 
 MIT，见 [LICENSE](LICENSE)。
+
+---
+
+## English
+
+### LMU Roof Camera Studio
+
+A visual editor for **Le Mans Ultimate** camera config files (`.CAM`). It places an on-board / roof camera exactly where you want it and keeps the car body visible in the frame. Unofficial tool, not affiliated with Motorsport Games or Studio 397.
+
+![Roof camera in game](docs/roof-view.jpg)
+
+![Editor window](docs/screenshot.png)
+
+**Features**
+
+- Drag the orange camera dot in a side view (Y/Z) and a top view (X/Z) instead of typing numbers.
+- Precise fields in centimetres and degrees, converted to metres and radians on write.
+- Reads the game's vehicle list and real `.CAM` filenames, so all cars can be set up in one click.
+- Independent per-car profiles.
+- Saving while the game is running: after the one-time setup only `.CAM` files are written, never `Settings.JSON`.
+- Automatic backup and restore of the files it changes.
+
+**Quick start**
+
+1. Close Le Mans Ultimate (first time only).
+2. Run `dist/LMU可视化车顶相机编辑器.exe`. It uses the built-in .NET Framework, no extra runtime needed.
+3. Confirm the game folder and press **扫描 / Scan**.
+4. Pick a car, drag the orange dot or type values.
+5. Press **保存当前车 CAM / Save this car**, or **写入全部车辆 / Write all cars**.
+6. Start the game, enter a track session and switch to **TVCOCKPIT** (the roof / TV cockpit view).
+
+**Parameters**
+
+| Field | Unit | Meaning |
+| --- | --- | --- |
+| X | cm | positive = right |
+| Y | cm | positive = up |
+| Z | cm | **positive = rearward, negative = forward** (measured in game) |
+| Pitch | degrees | negative usually looks down |
+| Camera slot | — | `TVCOCKPIT` (roof / TV cockpit) or `ONBOARD000` (external on-board) |
+| NOSE | — | optional extra slot; some cars do not draw bodywork in it |
+
+Default starting point, verified with the whole car body visible:
+
+```
+X=0, Y=60 cm, Z=250 cm, pitch=0°, slot=TVCOCKPIT
+```
+
+**Notes**
+
+- `.CAM` is not reliably hot-reloaded. After saving, restart the track session (a full game restart is normally unnecessary).
+- Values are written into `UserData\Cameras\<car>.CAM` inside the game folder, so they exist only on the machine that saved them.
+- Camera placement is a visual setting; car performance, physics and race data are untouched.
+- No process memory access, no injection, no anti-cheat bypass.
+
+Full English readme: [README.en.md](README.en.md)
+
