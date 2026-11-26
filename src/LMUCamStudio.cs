@@ -23,7 +23,7 @@ namespace LmuCamStudio
 
         public static CamProfile Default(string id)
         {
-            return new CamProfile { X = 0, Y = 0.90, Z = 0.65, Pitch = -0.14, NearClip = 0.05, IncludeNose = false, Slot = "TVCOCKPIT" };
+            return new CamProfile { X = 0, Y = 0.60, Z = 2.50, Pitch = 0.00, NearClip = 0.01, IncludeNose = false, Slot = "TVCOCKPIT" };
         }
     }
 
@@ -832,10 +832,10 @@ namespace LmuCamStudio
                 Storage.SaveVehicle(game, mclaren, true, backups);
                 string mclarenText = File.ReadAllText(mclaren.FilePath ?? Path.Combine(cameras, "720SEVO_GT3.CAM"));
                 Assert(mclarenText.Contains("LocalCam=TVCOCKPIT"), "default slot");
-                Assert(mclarenText.Contains("PositionOffset=(0.000000, 0.900000, 0.650000)"), "default offset");
-                Assert(mclarenText.Contains("ClipPlanes=(0.050000, 1500.000000)"), "default near clip");
+                Assert(mclarenText.Contains("PositionOffset=(0.000000, 0.600000, 2.500000)"), "default offset");
+                Assert(mclarenText.Contains("ClipPlanes=(0.010000, 1500.000000)"), "default near clip");
                 CamProfile loadedMclaren = CamFile.Load(Path.Combine(cameras, "720SEVO_GT3.CAM"), "720SEVO_GT3");
-                Assert(loadedMclaren.Slot == "TVCOCKPIT" && loadedMclaren.Y == 0.9, "slot reload");
+                Assert(loadedMclaren.Slot == "TVCOCKPIT" && loadedMclaren.Z == 2.5, "slot reload");
 
                 File.WriteAllText(Storage.SettingsPath(game), settingsAfterEnable.Replace("\"Broadcast Custom Cameras\": true", "\"Broadcast Custom Cameras\": false"));
                 bool blocked = false;
