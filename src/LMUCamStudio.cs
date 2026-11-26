@@ -23,8 +23,6 @@ namespace LmuCamStudio
 
         public static CamProfile Default(string id)
         {
-            if (String.Equals(id, "720SEVO_GT3", StringComparison.OrdinalIgnoreCase))
-                return new CamProfile { X = 0, Y = 0.55, Z = 0.15, Pitch = -0.20, NearClip = 0.01, IncludeNose = false, Slot = "ONBOARD000" };
             return new CamProfile { X = 0, Y = 0.90, Z = 0.65, Pitch = -0.14, NearClip = 0.05, IncludeNose = false, Slot = "TVCOCKPIT" };
         }
     }
@@ -530,7 +528,7 @@ namespace LmuCamStudio
             slotBox.SelectedIndex = 0;
             slotBox.SelectedIndexChanged += EditorChanged;
             Controls.AddRange(new Control[] { slotLabel, slotBox });
-            noseCheck.Text = "同时更新 NOSE（720S 不建议；部分车会隐藏车身）";
+            noseCheck.Text = "同时更新 NOSE（部分车会隐藏车身）";
             noseCheck.SetBounds(650, 495, 430, 26);
             noseCheck.CheckedChanged += EditorChanged;
             Controls.Add(noseCheck);
@@ -833,11 +831,11 @@ namespace LmuCamStudio
                 Vehicle mclaren = new Vehicle { Id = "720SEVO_GT3", Profile = CamProfile.Default("720SEVO_GT3") };
                 Storage.SaveVehicle(game, mclaren, true, backups);
                 string mclarenText = File.ReadAllText(mclaren.FilePath ?? Path.Combine(cameras, "720SEVO_GT3.CAM"));
-                Assert(mclarenText.Contains("LocalCam=ONBOARD000"), "720S visible-body onboard slot");
-                Assert(mclarenText.Contains("PositionOffset=(0.000000, 0.550000, 0.150000)"), "720S preset");
-                Assert(mclarenText.Contains("ClipPlanes=(0.010000, 1500.000000)"), "720S near clip");
+                Assert(mclarenText.Contains("LocalCam=TVCOCKPIT"), "default slot");
+                Assert(mclarenText.Contains("PositionOffset=(0.000000, 0.900000, 0.650000)"), "default offset");
+                Assert(mclarenText.Contains("ClipPlanes=(0.050000, 1500.000000)"), "default near clip");
                 CamProfile loadedMclaren = CamFile.Load(Path.Combine(cameras, "720SEVO_GT3.CAM"), "720SEVO_GT3");
-                Assert(loadedMclaren.Slot == "ONBOARD000" && loadedMclaren.Y == 0.55, "ONBOARD slot reload");
+                Assert(loadedMclaren.Slot == "TVCOCKPIT" && loadedMclaren.Y == 0.9, "slot reload");
 
                 File.WriteAllText(Storage.SettingsPath(game), settingsAfterEnable.Replace("\"Broadcast Custom Cameras\": true", "\"Broadcast Custom Cameras\": false"));
                 bool blocked = false;
@@ -850,7 +848,7 @@ namespace LmuCamStudio
                 Assert(File.ReadAllText(oldCam) == "ORIGINAL USER CAMERA", "original CAM restore");
                 Assert(!File.Exists(Path.Combine(cameras, "720SEVO_GT3.CAM")), "new CAM removal");
                 Assert(!Storage.CustomEnabled(game), "settings restore");
-                if (!String.IsNullOrEmpty(logPath)) File.WriteAllText(logPath, "PASS: discovery, first enable, game-running CAM-only save, first-run block, 720S preset, backup and restore.");
+                if (!String.IsNullOrEmpty(logPath)) File.WriteAllText(logPath, "PASS: discovery, first enable, game-running CAM-only save, first-run block, default profile, backup and restore.");
                 return 0;
             }
             catch (Exception ex)
